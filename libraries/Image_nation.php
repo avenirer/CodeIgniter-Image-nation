@@ -190,7 +190,7 @@ class Image_nation {
             $this->_set_sizes();
         }
 
-        $this->_create_images();
+        return $this->_create_images();
     }
 
     /**
