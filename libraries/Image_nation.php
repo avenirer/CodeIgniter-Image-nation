@@ -256,6 +256,8 @@ class Image_nation {
      */
     private function _create_images()
     {
+        //print_r($this->_images);
+        //exit;
         foreach($this->_images as $key => $image)
         {
             $master_config['image_library'] = $this->_image_library;
@@ -265,23 +267,38 @@ class Image_nation {
                 $size_config = array();
                 $size_config['source_image'] = $image['source_image'];
                 $size_config['quality'] = '100%';
+                if(!isset($params['directory'])) $params['directory'] = $this->_parent_directory.'/';
                 if(!file_exists($params['directory']))
                 {
                     mkdir($params['directory']);
                 }
+                if($this->_size_folders===TRUE)
+                {
+                    if(!file_exists(FCPATH.$params['directory'].$image_size))
+                    {
+                        if(!mkdir(FCPATH.$params['directory'].$image_size))
+                        {
+                            show_error('Couldn\'t create directory '.$image_size);
+                        }
+                    }
+                    else
+                    {
+                        $params['directory'] .= $image_size . '/';
+                    }
+                }
+                $ext = pathinfo($image['source_image'], PATHINFO_EXTENSION);
                 if(($this->_size_folders===FALSE) && ($params['file_name']===FALSE))
                 {
-                    $ext = pathinfo($image['source_image'], PATHINFO_EXTENSION);
                     $file_name = rtrim($image['image_name'],'.'.$ext);
                     $file_name .= '-'.$image_size.'.'.$ext;
                 }
                 elseif($params['file_name'])
                 {
-                    $file_name = $params['file_name'];
+                    $file_name = $params['file_name'].'.'.$ext;
                 }
                 else
                 {
-                    $file_name = $image['image_name'];
+                    $file_name = $image['image_name'].'.'.$ext;
                 }
                 $size_config['new_image'] = $params['directory'].$file_name;
                 $size_config['new_image'] = $this->_iterate_file_exists($size_config['new_image'],$params['overwrite']);
