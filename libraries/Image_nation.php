@@ -292,13 +292,13 @@ class Image_nation {
                     $file_name = rtrim($image['image_name'],'.'.$ext);
                     $file_name .= '-'.$image_size.'.'.$ext;
                 }
-                elseif($params['file_name'])
+                elseif(isset($params['file_name']))
                 {
                     $file_name = $params['file_name'].'.'.$ext;
                 }
                 else
                 {
-                    $file_name = $image['image_name'].'.'.$ext;
+                    $file_name = $image['image_name'];
                 }
                 $size_config['new_image'] = $params['directory'].$file_name;
                 $size_config['new_image'] = $this->_iterate_file_exists($size_config['new_image'],$params['overwrite']);
