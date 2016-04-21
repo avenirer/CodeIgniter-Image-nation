@@ -256,8 +256,6 @@ class Image_nation {
      */
     private function _create_images()
     {
-        //print_r($this->_images);
-        //exit;
         foreach($this->_images as $key => $image)
         {
             $master_config['image_library'] = $this->_image_library;
@@ -274,16 +272,12 @@ class Image_nation {
                 }
                 if($this->_size_folders===TRUE)
                 {
-                    if(!file_exists(FCPATH.$params['directory'].$image_size))
+                    if(!file_exists($params['directory']))
                     {
-                        if(!mkdir(FCPATH.$params['directory'].$image_size))
+                        if(!mkdir($params['directory']))
                         {
                             show_error('Couldn\'t create directory '.$image_size);
                         }
-                    }
-                    else
-                    {
-                        $params['directory'] .= $image_size . '/';
                     }
                 }
                 $ext = pathinfo($image['source_image'], PATHINFO_EXTENSION);
@@ -292,7 +286,7 @@ class Image_nation {
                     $file_name = rtrim($image['image_name'],'.'.$ext);
                     $file_name .= '-'.$image_size.'.'.$ext;
                 }
-                elseif(isset($params['file_name']))
+                elseif(isset($params['file_name']) && strlen($params['file_name'])>0)
                 {
                     $file_name = $params['file_name'].'.'.$ext;
                 }
