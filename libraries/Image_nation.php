@@ -355,7 +355,6 @@ class Image_nation {
 
                 $config['maintain_ratio'] = TRUE;
                 $config['master_dim'] = isset($params['master_dim']) ? $params['master_dim'] : $this->_default_master_dim;
-                $config['source_image'] = $config['new_image'];
                 $config['width'] = $params['width'];
                 $config['height'] = $params['height'];
                 $config['quality'] = isset($params['quality']) ? $params['quality'] : $this->_default_quality;
