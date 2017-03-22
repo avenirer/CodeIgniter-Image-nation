@@ -294,7 +294,7 @@ class Image_nation {
                 {
                     $file_name = $image['image_name'];
                 }
-                $size_config['new_image'] = $params['directory'].$file_name;
+                $size_config['new_image'] = $params['directory'].'/'.$file_name;
                 $size_config['new_image'] = $this->_iterate_file_exists($size_config['new_image'],$params['overwrite']);
                 $source_ratio = $image['source_width'] / $image['source_height'];
                 $new_ratio = $params['width'] / $params['height'];
@@ -367,7 +367,7 @@ class Image_nation {
                 $this->image_lib->clear();
 
                 if(!isset($errors)) $errors = array();
-                
+
                 $file_name_arr = explode('/',$file_name);
                 $file_name = $file_name_arr[sizeof($file_name_arr)-1];
                 $this->_processed_images[$key][$image_size] = array('file_name'=>$file_name,'path'=>$config['new_image'],'errors'=>$errors);
