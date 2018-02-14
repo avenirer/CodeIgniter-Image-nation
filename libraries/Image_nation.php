@@ -1,10 +1,4 @@
 <?php
-/**
- * Created with: PhpStorm.
- * User: adrian.voicu
- * Date: 12/12/2014
- * Time: 4:54 PM
- */
 
 class Image_nation {
 
@@ -30,7 +24,7 @@ class Image_nation {
         $this->load->config('image_nation', TRUE);
         $this->_image_library = $this->config->item('image_library', 'image_nation');
         $this->_source_directory = $this->config->item('source_directory', 'image_nation');
-        $this->_parent_directory = $this->config->item('parent_directory', 'image_nation');
+        $this->_parent_directory = str_replace('\\','/',FCPATH.$this->config->item('parent_directory', 'image_nation'));
         $this->_size_folders = $this->config->item('size_folders', 'image_nation');
         $this->_default_sizes = $this->config->item('default_sizes', 'image_nation');
         $this->_keep_aspect_ratio = $this->config->item('keep_aspect_ratio', 'image_nation');
@@ -53,7 +47,10 @@ class Image_nation {
             $sizes = explode('|', $this->_default_sizes);
             foreach($sizes as $size)
             {
-                $image_path = ($this->_size_folders) ? str_replace('\\','/',FCPATH.$this->_parent_directory).'/'.$size.'/' : str_replace('\\','/',FCPATH.$this->_parent_directory).'/';
+                $image_path = $this->_parent_directory.'/';
+                if($this->_size_folders == true) {
+                    $image_path .= $size.'/';
+                }
                 $width_height = explode('x',$size);
                 $sizes_arr[$size] = array(
                     'width' => $width_height[0],
@@ -265,7 +262,13 @@ class Image_nation {
                 $size_config = array();
                 $size_config['source_image'] = $image['source_image'];
                 $size_config['quality'] = '100%';
-                if(!isset($params['directory'])) $params['directory'] = $this->_parent_directory.'/';
+                if(!isset($params['directory'])) {
+                    $params['directory'] = $this->_parent_directory.'/';
+                    if($this->_size_folders == true) {
+                        $params['directory'] .= $image_size.'/';
+                    }
+                }
+
                 if(!file_exists($params['directory']))
                 {
                     mkdir($params['directory']);
